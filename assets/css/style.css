@@ -1,1 +1,33 @@
 /* Style Sheet */
+body {
+    margin: 0;
+}
+
+.bigHeader {
+    margin-top: 0;
+    text-align: center;
+    border-bottom: 5px solid blue;
+    padding-top: 20px;
+    padding-bottom: 40px;
+    background-color: darkgrey;
+}
+
+.header {
+    border: 5px solid black;
+
+}
+
+.mainContainer {
+    border: 5px solid black;
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-top: 25%;
+}
+
+.container-subGenres {
+   
+}
+
+.subGenres-col {
+    
+}
