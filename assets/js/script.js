@@ -7,7 +7,7 @@ function getApi(isbn, bookName) {
     .then(function(data) {
         console.log(data)
     })
-}
+} */
 
 function getApi2() {
     let listName = 'education'
