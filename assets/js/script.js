@@ -1,4 +1,7 @@
-function getApi(isbn, bookName) {
+let categoryArr = ['fiction', 'nonfiction', 'graphic-books-manga', 'young-adult', 'business', 'crime',
+'science', 'sports', 'travel']
+
+function googleBooksApi(isbn, bookName) {
     let requestUrl = 'https://www.googleapis.com/books/v1/volumes?q=' + bookName + 'isbn:' + isbn
     fetch(requestUrl)
     .then(function (response) {
@@ -7,9 +10,9 @@ function getApi(isbn, bookName) {
     .then(function(data) {
         console.log(data)
     })
-} */
+} 
 
-function getApi2() {
+function nyTimesApi() {
     let listName = 'education'
     let requestUrl = 'https://api.nytimes.com/svc/books/v3/lists/current/' + listName + '.json?api-key=8DYkNsuedhfrGlFCoGJ82DgppVWLNTXD'
     fetch(requestUrl)
@@ -24,7 +27,7 @@ function getApi2() {
         console.log(x)
         console.log(isbn)
         console.log(bookName)
-        getApi(isbn, bookName)
+        googleBooksApi(isbn, bookName)
     })
 }
 
@@ -32,4 +35,8 @@ function getRandom(data) {
     return Math.floor(Math.random() * data.results.books.length)
  }
 
-getApi2()
+//  function checkboxes() {
+//     for(let i = 0; i < categoryArr.length; i++)
+//  }
+
+nyTimesApi()
