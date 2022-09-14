@@ -5,21 +5,47 @@ let nyTimesCategory = ['hardcover-fiction', 'hardcover-nonfiction', 'graphic-boo
 let categoryLabels = ['Fiction', 'Nonfiction', 'Graphic Books and Manga', 'Young Adult', 'Business', 'Crime', 'Science',
 'Sports', 'Travel']
 function launchPage() {
+    let bigHeader = document.createElement('h1')
+    bigHeader.innerHTML = 'Pick me a book to read'
+    bigHeader.setAttribute('class', 'bigHeader')
     let genreHeader = document.createElement('h2')
     genreHeader.setAttribute('class', 'header')
     genreHeader.innerHTML = 'Choose a Genre'
     let mainElement = document.querySelector('main')
+    mainElement.appendChild(bigHeader)
     mainElement.appendChild(genreHeader)
+    let genreContainer = document.createElement('div')
+    genreContainer.setAttribute('class', 'container-subGenres')
+    mainElement.appendChild(genreContainer)
+    let genreList1 = document.createElement('ul')
+    let genreList2 = document.createElement('ul')
+    let genreList3 = document.createElement('ul')
+    genreList1.setAttribute('class', 'subGenres-col')
+    genreList3.setAttribute('class', 'subGenres-col')
+    genreList3.setAttribute('class', 'subGenres-col')
+    genreContainer.appendChild(genreList1)
+    genreContainer.appendChild(genreList2)
+    genreContainer.appendChild(genreList3)
     for(let i = 0; i < categoryLabels.length; i++) {
-        let genreList = document.createElement('ul')
         let genre = document.createElement('li')
         let checkbox = document.createElement('input')
+        let label = document. createElement('label')
+        label.setAttribute('for', nyTimesCategory[i])
+        label.innerHTML = categoryLabels[i]
         checkbox.setAttribute('type', 'checkbox')
         checkbox.setAttribute('id', nyTimesCategory[i])
-        genre.innerHTML = categoryLabels[i]
-        mainElement.appendChild(genreList)
-        genreList.appendChild(genre)
+        // genre.innerHTML = categoryLabels[i]
         genre.appendChild(checkbox)
+        genre.appendChild(label)
+        if(i<3) {
+            genreList1.appendChild(genre)
+        }
+        else if(i<6) {
+            genreList2.appendChild(genre)
+        }
+        else {
+            genreList3.appendChild(genre)
+        }
     }
     let submitBtn = document.createElement('button')
     submitBtn.innerHTML = 'Submit'
