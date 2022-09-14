@@ -1,1 +1,60 @@
 /* Style Sheet */
+body {
+    margin: 0;
+}
+
+.mainContainer {
+    border: 2px solid black;
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-top: 175px;
+    border-radius: 10px;
+    box-shadow: 10px 10px darkgrey;
+}
+
+.bigHeader {
+    margin-top: 0;
+    text-align: center;
+    border-bottom: 5px solid;
+    padding-top: 20px;
+    padding-bottom: 40px;
+    background-color: darkgrey;
+    border-radius: 6px;
+}
+
+.header {
+    border: 5px solid black;
+    text-align: center;
+    background-color: mintcream;
+    border-radius: 5px;
+}
+
+
+
+.container-subGenres {
+    margin-left: 5%;
+   display: flex;
+   flex-direction: row;
+}
+
+.subGenres-col {
+    display: flex;
+    flex-direction: column;
+    margin-left: 7%;
+    margin-right: 5%;
+}
+
+.subGenres-item {
+    justify-content: space-around;
+    font-size: 20px;
+}
+
+
+#submit {
+    margin-left: 36%;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    font-size: 30px;
+    padding-left: 10%;
+    padding-right: 10%;
+}
