@@ -29,7 +29,8 @@ function launchPage() {
     for(let i = 0; i < categoryLabels.length; i++) {
         let genre = document.createElement('li')
         let checkbox = document.createElement('input')
-        let label = document. createElement('label')
+        let label = document.createElement('label')
+        genre.setAttribute('class', 'subGenres-item')
         label.setAttribute('for', nyTimesCategory[i])
         label.innerHTML = categoryLabels[i]
         checkbox.setAttribute('type', 'checkbox')
@@ -53,8 +54,11 @@ function launchPage() {
     mainElement.appendChild(submitBtn)
 }
 
+function hideGenres() {
+    document.querySelector('.container-subGenres').remove()
+}
 
-function googleBooksApi(isbn, bookName) {
+function googleBooksApi(isbn, bookName, authorName, description, coverUrl) {
     let requestUrl = 'https://www.googleapis.com/books/v1/volumes?q=' + bookName + 'isbn:' + isbn
     fetch(requestUrl)
     .then(function (response) {
@@ -74,14 +78,18 @@ function nyTimesApi(categorySelections) {
         return response.json();
       })
     .then(function(data) {
-        console.log(data)
+        // console.log(data)
         let x = getRandomBook(data)
         let isbn = data.results.books[x].primary_isbn13
         let bookName = data.results.books[x].title
+        let authorName = data.results.books[x].author
+        let shortDescription = data.results.books[x].description
+        let coverUrl = data.results.books[x].book_image
+        document.querySelector('.header').innerHTML = bookName
         console.log(x)
         console.log(isbn)
         console.log(bookName)
-        googleBooksApi(isbn, bookName)
+        googleBooksApi(isbn, bookName, authorName, shortDescription, coverUrl)
     })
 }
 
@@ -104,7 +112,11 @@ function getRandomBook(data) {
     }
     console.log(categorySelections)
     nyTimesApi(categorySelections)
+    hideGenres()
  }
+
+// function showBookData(googleData, nytData)
+
 launchPage()
 document.getElementById('submit').addEventListener('click', checkboxes)
 
