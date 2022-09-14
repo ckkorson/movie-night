@@ -3,6 +3,7 @@ body {
     margin: 0;
 }
 
+
 .mainContainer {
     border: 2px solid black;
     margin-left: 20%;
@@ -24,6 +25,7 @@ body {
 
 .header {
     border: 5px solid black;
+
     text-align: center;
     background-color: mintcream;
     border-radius: 5px;
