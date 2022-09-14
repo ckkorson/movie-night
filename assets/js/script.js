@@ -2,7 +2,7 @@ let categoryArr = ['fiction', 'nonfiction', 'graphic-books-manga', 'young-adult'
 'science', 'sports', 'travel']
 let nyTimesCategory = ['hardcover-fiction', 'hardcover-nonfiction', 'graphic-books-and-manga', 'young-adult',
 'business-books', 'crime-and-punishment', 'science', 'sports', 'travel']
-let categoryLabels = ['Fiction', 'Nonfiction', 'Graphic Books and Manga', 'Young Adult', 'Business', 'Crime', 'Science',
+let categoryLabels = ['Fiction', 'Nonfiction', 'Graphic Books/Manga', 'Young Adult', 'Business', 'Crime', 'Science',
 'Sports', 'Travel']
 function launchPage() {
     let bigHeader = document.createElement('h1')
@@ -30,6 +30,7 @@ function launchPage() {
         let genre = document.createElement('li')
         let checkbox = document.createElement('input')
         let label = document. createElement('label')
+        genre.setAttribute("class", "subGenres-item")
         label.setAttribute('for', nyTimesCategory[i])
         label.innerHTML = categoryLabels[i]
         checkbox.setAttribute('type', 'checkbox')

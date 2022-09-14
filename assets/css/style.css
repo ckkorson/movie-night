@@ -1,15 +1,20 @@
 /* Style Sheet */
 body {
     margin: 0;
+    background-image: url("/assets/images/alfons-morales-YLSwjSy7stw-unsplash (1).jpg");
+    /* Photo by <a href="https://unsplash.com/@alfonsmc10?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Alfons Morales</a> on <a href="https://unsplash.com/s/photos/library-books?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a> */
+    /* Photo by Alfons Morales */
 }
 
 .mainContainer {
     border: 2px solid black;
-    margin-left: 20%;
-    margin-right: 20%;
+    background-color: lightgray;
+    margin-left: 10%;
+    margin-right: 10%;
     margin-top: 175px;
     border-radius: 10px;
-    box-shadow: 10px 10px darkgrey;
+    height: auto;
+
 }
 
 .bigHeader {
@@ -20,6 +25,7 @@ body {
     padding-bottom: 40px;
     background-color: darkgrey;
     border-radius: 6px;
+    font-size: 50px;
 }
 
 .header {
@@ -27,26 +33,30 @@ body {
     text-align: center;
     background-color: mintcream;
     border-radius: 5px;
+    font-size: 40px;
 }
 
 
 
-.container-subGenres {
-    margin-left: 5%;
+.container-subGenres { 
    display: flex;
    flex-direction: row;
+   justify-content: space-evenly;
+   
 }
 
 .subGenres-col {
     display: flex;
     flex-direction: column;
-    margin-left: 7%;
-    margin-right: 5%;
+    justify-content: space-evenly;
+
 }
 
 .subGenres-item {
     justify-content: space-around;
-    font-size: 20px;
+    font-size: 30px;
+    list-style-type: none;
+    margin-bottom: 20px;
 }
 
 
@@ -54,7 +64,10 @@ body {
     margin-left: 36%;
     margin-top: 40px;
     margin-bottom: 40px;
-    font-size: 30px;
+    font-size: 35px;
     padding-left: 10%;
     padding-right: 10%;
 }
+
+/* Photo by <a href="https://unsplash.com/@alfonsmc10?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Alfons Morales</a> on <a href="https://unsplash.com/s/photos/library-books?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a> */
+  
