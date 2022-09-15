@@ -91,27 +91,51 @@ function hideGenres() {
 }
 
 function googleBooksApi(bookData) {
-    let requestUrl = 'https://www.googleapis.com/books/v1/volumes?q=' + bookData.title + 'isbn:' + bookData.primary_isbn13
+    let requestUrl = 'https://www.googleapis.com/books/v1/volumes?q=' + bookData.title + 'isbn:' + bookData.primary_isbn10
     fetch(requestUrl)
     .then(function (response) {
         return response.json();
       })
     .then(function(data) {
-        // let googleData = data.items[0]
-        // console.log(googleData)
         console.log(bookData)
-        displayInfo(bookData)
+        if(data.totalItems > 0) {
+            let googleData = data.items[0]
+            console.log(googleData)
+            displayDetailedInfo(bookData, googleData)
+        }else {
+            displayBasicInfo(bookData, googleData)
+        }
     })
 } 
 
-function displayInfo(bookData) {
-    // let bookInfoList = document.createElement('ul')
-    // mainElement.appendChild(bookInfoList)
-    // let infoArr = [bookData.author, bookData.description]
-    // for(let i = 0; i < infoArr.length; i++) {
-    //     let bookInfo = document.createElement('li')
-    //     bookInfo.innerHTML = 
-    // }
+function displayDetailedInfo(bookData, googleData) {
+    let author = document.createElement('p')
+    author.innerHTML = bookData.author
+    author.setAttribute('id', 'author')
+    let coverArt = document.createElement('img')
+    coverArt.setAttribute('src', bookData.book_image)
+    coverArt.setAttribute('id', 'cover-art')
+    let description = document.createElement('p')
+    description.innerHTML = googleData.volumeInfo.description
+    description.setAttribute('id', 'description')
+    let previewLink = document.createElement('a')
+    previewLink.setAttribute('id', 'preview-link')
+    previewLink.setAttribute('href', googleData.volumeInfo.previewLink)
+    previewLink.setAttribute('target', 'blank')
+    previewLink.innerHTML = 'Link to Google Books Preview'
+    let backBnt = document.createElement('button')
+    backBnt.setAttribute('class', 'button')
+    backBnt.setAttribute('id', 'back-button')
+    backBnt.innerHTML = 'Pick a new Genre'
+    mainElement.appendChild(author)
+    mainElement.appendChild(coverArt)
+    mainElement.appendChild(description)
+    mainElement.appendChild(previewLink)
+    mainElement.appendChild(backBnt)
+    backBnt.addEventListener('click', goBack)
+}
+
+function displayBasicInfo(bookData) {
     let author = document.createElement('p')
     author.innerHTML = bookData.author
     author.setAttribute('id', 'author')
@@ -185,9 +209,31 @@ function getRandomBook(data) {
         hideGenres()
         nyTimesApi(categorySelections)
     }else {
-        alert('Please select at least one genre.')
+        // alert('Please select at least one genre.')
+        noCategory()
     }
  }
+
+function noCategory() {
+    hideGenres()
+    document.querySelector('.header').remove()
+    let errorMessage = document.createElement('p')
+    errorMessage.setAttribute('id', 'error-message')
+    errorMessage.innerHTML = 'Please select at least one genre.'
+    let errorBtn = document.createElement('button')
+    errorBtn.setAttribute('class', 'button')
+    errorBtn.setAttribute('id', 'error-button')
+    errorBtn.innerHTML = 'Try Again'
+    mainElement.appendChild(errorMessage)
+    mainElement.appendChild(errorBtn)
+    errorBtn.addEventListener('click', hideError) 
+}
+
+function hideError() {
+    document.getElementById('error-message').remove()
+    document.getElementById('error-button').remove()
+    launchPage()
+}
 
 // function showBookData(googleData, nytData)
 
