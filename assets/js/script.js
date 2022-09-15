@@ -149,7 +149,6 @@ function displayBasicInfo(bookData) {
 }
 
 function goBackDetailed() {
-    document.getElementById('author').remove()
     document.getElementById('cover-art').remove()
     document.getElementById('description').remove()
     document.getElementById('back-button').remove()
@@ -158,7 +157,6 @@ function goBackDetailed() {
     launchPage()
 }
 function goBackBasic() {
-    document.getElementById('author').remove()
     document.getElementById('cover-art').remove()
     document.getElementById('description').remove()
     document.getElementById('back-button').remove()
