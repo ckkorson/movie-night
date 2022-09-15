@@ -1,18 +1,47 @@
-let categoryArr = ['fiction', 'nonfiction', 'graphic-books-manga', 'young-adult', 'business', 'crime',
+var categoryArr = ['fiction', 'nonfiction', 'graphic-books-manga', 'young-adult', 'business', 'crime',
 'science', 'sports', 'travel']
-let nyTimesCategory = ['hardcover-fiction', 'hardcover-nonfiction', 'graphic-books-and-manga', 'young-adult',
+var nyTimesCategory = ['hardcover-fiction', 'hardcover-nonfiction', 'graphic-books-and-manga', 'young-adult',
 'business-books', 'crime-and-punishment', 'science', 'sports', 'travel']
-let categoryLabels = ['Fiction', 'Nonfiction', 'Graphic Books/Manga', 'Young Adult', 'Business', 'Crime', 'Science',
+var categoryLabels = ['Fiction', 'Nonfiction', 'Graphic Books/Manga', 'Young Adult', 'Business', 'Crime', 'Science',
 'Sports', 'Travel']
-function launchPage() {
+var mainElement = document.querySelector('main')
+
+function introPage() {
+    // let mainElement = document.querySelector('main')
     let bigHeader = document.createElement('h1')
     bigHeader.innerHTML = 'Pick me a book to read'
     bigHeader.setAttribute('class', 'bigHeader')
+    mainElement.appendChild(bigHeader)
+    let introText = document.createElement('p')
+    introText.setAttribute('id', 'intro-text')
+    introText.innerHTML = 'Select a genre (or genres) and we will select a book for you from the current NY Times Bestseller Lists'
+    mainElement.appendChild(introText)
+    let startBtn = document.createElement('button')
+    startBtn.setAttribute('id', 'start-button')
+    startBtn.setAttribute('class', 'button')
+    startBtn.innerHTML = 'Get Started'
+    mainElement.appendChild(startBtn)
+    document.getElementById('start-button').addEventListener('click', function() {
+        removeIntro()
+        launchPage()
+    })
+}
+
+function removeIntro() {
+    document.getElementById('intro-text').remove()
+    document.getElementById('start-button').remove()
+}
+
+function launchPage() {
+    // let bigHeader = document.createElement('h1')
+    // bigHeader.innerHTML = 'Pick me a book to read'
+    // bigHeader.setAttribute('class', 'bigHeader')
+    // removeIntro()
     let genreHeader = document.createElement('h2')
     genreHeader.setAttribute('class', 'header')
     genreHeader.innerHTML = 'Choose a Genre'
-    let mainElement = document.querySelector('main')
-    mainElement.appendChild(bigHeader)
+    // let mainElement = document.querySelector('main')
+    // mainElement.appendChild(bigHeader)
     mainElement.appendChild(genreHeader)
     let genreContainer = document.createElement('div')
     genreContainer.setAttribute('class', 'container-subGenres')
@@ -51,23 +80,66 @@ function launchPage() {
     let submitBtn = document.createElement('button')
     submitBtn.innerHTML = 'Submit'
     submitBtn.setAttribute('id', 'submit')
+    submitBtn.setAttribute('class', 'button')
     mainElement.appendChild(submitBtn)
+    document.getElementById('submit').addEventListener('click', checkboxes)
 }
 
 function hideGenres() {
     document.querySelector('.container-subGenres').remove()
+    document.getElementById('submit').remove()
 }
 
-function googleBooksApi(isbn, bookName, authorName, description, coverUrl) {
-    let requestUrl = 'https://www.googleapis.com/books/v1/volumes?q=' + bookName + 'isbn:' + isbn
+function googleBooksApi(bookData) {
+    let requestUrl = 'https://www.googleapis.com/books/v1/volumes?q=' + bookData.title + 'isbn:' + bookData.primary_isbn13
     fetch(requestUrl)
     .then(function (response) {
         return response.json();
       })
     .then(function(data) {
-        console.log(data)
+        // let googleData = data.items[0]
+        // console.log(googleData)
+        console.log(bookData)
+        displayInfo(bookData)
     })
 } 
+
+function displayInfo(bookData) {
+    // let bookInfoList = document.createElement('ul')
+    // mainElement.appendChild(bookInfoList)
+    // let infoArr = [bookData.author, bookData.description]
+    // for(let i = 0; i < infoArr.length; i++) {
+    //     let bookInfo = document.createElement('li')
+    //     bookInfo.innerHTML = 
+    // }
+    let author = document.createElement('p')
+    author.innerHTML = bookData.author
+    author.setAttribute('id', 'author')
+    let coverArt = document.createElement('img')
+    coverArt.setAttribute('src', bookData.book_image)
+    coverArt.setAttribute('id', 'cover-art')
+    let description = document.createElement('p')
+    description.innerHTML = bookData.description
+    description.setAttribute('id', 'description')
+    let backBnt = document.createElement('button')
+    backBnt.setAttribute('class', 'button')
+    backBnt.setAttribute('id', 'back-button')
+    backBnt.innerHTML = 'Pick a new Genre'
+    mainElement.appendChild(author)
+    mainElement.appendChild(coverArt)
+    mainElement.appendChild(description)
+    mainElement.appendChild(backBnt)
+    backBnt.addEventListener('click', goBack)
+}
+
+function goBack() {
+    document.getElementById('author').remove()
+    document.getElementById('cover-art').remove()
+    document.getElementById('description').remove()
+    document.getElementById('back-button').remove()
+    document.querySelector('.header').remove()
+    launchPage()
+}
 
 function nyTimesApi(categorySelections) {
     let randomCategory = getRandomCategory(categorySelections)
@@ -82,14 +154,12 @@ function nyTimesApi(categorySelections) {
         let x = getRandomBook(data)
         let isbn = data.results.books[x].primary_isbn13
         let bookName = data.results.books[x].title
-        let authorName = data.results.books[x].author
-        let shortDescription = data.results.books[x].description
-        let coverUrl = data.results.books[x].book_image
+        let bookData = data.results.books[x]
         document.querySelector('.header').innerHTML = bookName
         console.log(x)
         console.log(isbn)
         console.log(bookName)
-        googleBooksApi(isbn, bookName, authorName, shortDescription, coverUrl)
+        googleBooksApi(bookData)
     })
 }
 
@@ -111,13 +181,18 @@ function getRandomBook(data) {
         }
     }
     console.log(categorySelections)
-    nyTimesApi(categorySelections)
-    hideGenres()
+    if(categorySelections.length > 0) {
+        hideGenres()
+        nyTimesApi(categorySelections)
+    }else {
+        alert('Please select at least one genre.')
+    }
  }
 
 // function showBookData(googleData, nytData)
 
-launchPage()
-document.getElementById('submit').addEventListener('click', checkboxes)
+introPage()
+// document.getElementById('submit').addEventListener('click', checkboxes)
+// document.getElementById('start-button').addEventListener('click', launchPage)
 
 // nyTimesApi()
