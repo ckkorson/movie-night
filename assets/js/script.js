@@ -9,7 +9,7 @@ var mainElement = document.querySelector('main')
 function introPage() {
     // let mainElement = document.querySelector('main')
     let bigHeader = document.createElement('h1')
-    bigHeader.innerHTML = 'Pick me a book to read'
+    bigHeader.innerHTML = 'New York Times Book Picker'
     bigHeader.setAttribute('class', 'bigHeader')
     mainElement.appendChild(bigHeader)
     let introText = document.createElement('p')
@@ -109,9 +109,6 @@ function googleBooksApi(bookData) {
 } 
 
 function displayDetailedInfo(bookData, googleData) {
-    let author = document.createElement('p')
-    author.innerHTML = bookData.author
-    author.setAttribute('id', 'author')
     let coverArt = document.createElement('img')
     coverArt.setAttribute('src', bookData.book_image)
     coverArt.setAttribute('id', 'cover-art')
@@ -127,18 +124,14 @@ function displayDetailedInfo(bookData, googleData) {
     backBnt.setAttribute('class', 'button')
     backBnt.setAttribute('id', 'back-button')
     backBnt.innerHTML = 'Pick a new Genre'
-    mainElement.appendChild(author)
     mainElement.appendChild(coverArt)
     mainElement.appendChild(description)
     mainElement.appendChild(previewLink)
     mainElement.appendChild(backBnt)
-    backBnt.addEventListener('click', goBack)
+    backBnt.addEventListener('click', goBackDetailed)
 }
 
 function displayBasicInfo(bookData) {
-    let author = document.createElement('p')
-    author.innerHTML = bookData.author
-    author.setAttribute('id', 'author')
     let coverArt = document.createElement('img')
     coverArt.setAttribute('src', bookData.book_image)
     coverArt.setAttribute('id', 'cover-art')
@@ -149,14 +142,22 @@ function displayBasicInfo(bookData) {
     backBnt.setAttribute('class', 'button')
     backBnt.setAttribute('id', 'back-button')
     backBnt.innerHTML = 'Pick a new Genre'
-    mainElement.appendChild(author)
     mainElement.appendChild(coverArt)
     mainElement.appendChild(description)
     mainElement.appendChild(backBnt)
-    backBnt.addEventListener('click', goBack)
+    backBnt.addEventListener('click', goBackBasic)
 }
 
-function goBack() {
+function goBackDetailed() {
+    document.getElementById('author').remove()
+    document.getElementById('cover-art').remove()
+    document.getElementById('description').remove()
+    document.getElementById('back-button').remove()
+    document.querySelector('.header').remove()
+    document.getElementById('preview-link').remove()
+    launchPage()
+}
+function goBackBasic() {
     document.getElementById('author').remove()
     document.getElementById('cover-art').remove()
     document.getElementById('description').remove()
@@ -176,13 +177,8 @@ function nyTimesApi(categorySelections) {
     .then(function(data) {
         // console.log(data)
         let x = getRandomBook(data)
-        let isbn = data.results.books[x].primary_isbn13
-        let bookName = data.results.books[x].title
         let bookData = data.results.books[x]
-        document.querySelector('.header').innerHTML = bookName
-        console.log(x)
-        console.log(isbn)
-        console.log(bookName)
+        document.querySelector('.header').innerHTML = '"' + bookData.title + '"' + '    By: ' + bookData.author
         googleBooksApi(bookData)
     })
 }
