@@ -168,7 +168,11 @@ function displayDetailedInfo(bookData, googleData) {
     coverArt.setAttribute('src', bookData.book_image)
     coverArt.setAttribute('id', 'cover-art')
     let description = document.createElement('p')
-    description.innerHTML = googleData.volumeInfo.description
+    if(googleData.volumeInfo.description != undefined) {
+        description.innerHTML = googleData.volumeInfo.description
+    }else {
+        description.innerHTML = bookData.description
+    }
     description.setAttribute('id', 'description')
     let previewLink = document.createElement('a')
     previewLink.setAttribute('id', 'preview-link')
