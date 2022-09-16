@@ -1,24 +1,21 @@
-var categoryArr = ['fiction', 'nonfiction', 'graphic-books-manga', 'young-adult', 'business', 'crime',
-'science', 'sports', 'travel']
+// array to hold ny times bestseller list names
 var nyTimesCategory = ['hardcover-fiction', 'hardcover-nonfiction', 'graphic-books-and-manga', 'young-adult',
 'business-books', 'crime-and-punishment', 'science', 'sports', 'travel']
+// array to hold genre names that coorespond to bestseller list names
 var categoryLabels = ['Fiction', 'Nonfiction', 'Graphic Books/Manga', 'Young Adult', 'Business', 'Crime', 'Science',
 'Sports', 'Travel']
+// global variable for the main element
 var mainElement = document.querySelector('main')
-if (JSON.parse(localStorage.getItem('searchHistory')) != null) {
-    var searchHistory = JSON.parse(localStorage.getItem('searchHistory'))
+// create bookHistory array from local storage if it already exists
+// otherwise create empty array
+if (JSON.parse(localStorage.getItem('bookHistory')) != null) {
+    var bookHistory = JSON.parse(localStorage.getItem('bookHistory'))
 }else {
-    var searchHistory = {
-            titleHist: [],
-            authorHist: [],
-            coverHist: [],
-            descHist: [],
-            linkHist: []
-        }
+    var bookHistory = []
 }
-
+// function to for the intro screen
+// creates headers, text, and button
 function introPage() {
-    // let mainElement = document.querySelector('main')
     let bigHeader = document.createElement('h1')
     let buttonDiv = document.createElement('div')
     buttonDiv.setAttribute('class', 'center')
@@ -35,29 +32,73 @@ function introPage() {
     startBtn.innerHTML = 'Get Started'
     buttonDiv.appendChild(startBtn)
     mainElement.appendChild(buttonDiv)
+    if(bookHistory.length > 0) {
+        addHistory()
+    }
     document.getElementById('start-button').addEventListener('click', function() {
         removeIntro()
-        launchPage()
+        genrePicker()
     })
 }
-
+// function to add any recent searches to the bottom of the page
+function addHistory() {
+    let histContainer = document.createElement('div')
+    histContainer.setAttribute('class', 'history-container')
+    mainElement.appendChild(histContainer)
+    let histHeader = document.createElement('h3')
+    histHeader.setAttribute('id', 'history-header')
+    histHeader.innerHTML = 'Recent Suggestions:'
+    histContainer.appendChild(histHeader)
+    for(let i = 0; i < bookHistory.length; i++) {
+        let histItem = document.createElement('p')
+        histItem.setAttribute('class', 'history-item')
+        histItem.setAttribute('id', 'item-' + i)
+        histItem.innerHTML = bookHistory[i].title
+        histContainer.appendChild(histItem)
+        let bookData = bookHistory[i]
+        if(document.querySelector('.button').innerHTML == 'Get Started') {
+            histItem.addEventListener('click', function() {
+                removeIntro()
+                displayHistoryInfo(bookData)
+            })
+        } else {
+            histItem.addEventListener('click', function() {
+                document.getElementById('cover-art').remove()
+                document.getElementById('description').remove()
+                document.getElementById('back-button').remove()
+                document.querySelector('.header').remove()
+                document.getElementById('preview-link').remove()
+                if(bookHistory.length > 0) {
+                    document.querySelector('.history-container').remove()
+                }
+                displayHistoryInfo(bookData)
+            })
+        }
+    }
+}
+// function to display info from recent search in the same format as new books
+function displayHistoryInfo(bookData) {
+    let genreHeader = document.createElement('h2')
+    genreHeader.setAttribute('class', 'header')
+    genreHeader.innerHTML = '"' + bookData.title + '"' + '    By: ' + bookData.author
+    mainElement.appendChild(genreHeader)
+    displayBasicInfo(bookData)
+}
+// remove elements from the intro screen
 function removeIntro() {
     document.getElementById('intro-text').remove()
     document.getElementById('start-button').remove()
+    if(bookHistory.length > 0) {
+        document.querySelector('.history-container').remove()
+    }
 }
-
-function launchPage() {
-    // let bigHeader = document.createElement('h1')
-    // bigHeader.innerHTML = 'Pick me a book to read'
-    // bigHeader.setAttribute('class', 'bigHeader')
-    // removeIntro()
+// function to display the different genres with selectable checkboxes
+function genrePicker() {
     let genreHeader = document.createElement('h2')
     let buttonDiv = document.createElement('div')
     buttonDiv.setAttribute('class', 'center')
     genreHeader.setAttribute('class', 'header')
     genreHeader.innerHTML = 'Choose a Genre'
-    // let mainElement = document.querySelector('main')
-    // mainElement.appendChild(bigHeader)
     mainElement.appendChild(genreHeader)
     let genreContainer = document.createElement('div')
     genreContainer.setAttribute('class', 'container-subGenres')
@@ -80,7 +121,6 @@ function launchPage() {
         label.innerHTML = categoryLabels[i]
         checkbox.setAttribute('type', 'checkbox')
         checkbox.setAttribute('id', nyTimesCategory[i])
-        // genre.innerHTML = categoryLabels[i]
         genre.appendChild(checkbox)
         genre.appendChild(label)
         if(i<3) {
@@ -101,12 +141,12 @@ function launchPage() {
     mainElement.appendChild(buttonDiv)
     document.getElementById('submit').addEventListener('click', checkboxes)
 }
-
+// remove genre checkboxes elements
 function hideGenres() {
     document.querySelector('.container-subGenres').remove()
     document.getElementById('submit').remove()
 }
-
+// pull from google books api based on random book selected from nyt api
 function googleBooksApi(bookData) {
     let requestUrl = 'https://www.googleapis.com/books/v1/volumes?q=' + bookData.title + 'isbn:' + bookData.primary_isbn10
     fetch(requestUrl)
@@ -125,19 +165,23 @@ function googleBooksApi(bookData) {
         }
     })
 } 
-
+// display book data for books that were sucessfully found using google books api
 function displayDetailedInfo(bookData, googleData) {
     let coverArt = document.createElement('img')
     coverArt.setAttribute('src', bookData.book_image)
     coverArt.setAttribute('id', 'cover-art')
     let description = document.createElement('p')
-    description.innerHTML = googleData.volumeInfo.description
+    if(googleData.volumeInfo.description != undefined) {
+        description.innerHTML = googleData.volumeInfo.description
+    }else {
+        description.innerHTML = bookData.description
+    }
     description.setAttribute('id', 'description')
     let previewLink = document.createElement('a')
     previewLink.setAttribute('id', 'preview-link')
     previewLink.setAttribute('href', googleData.volumeInfo.previewLink)
     previewLink.setAttribute('target', 'blank')
-    previewLink.innerHTML = 'Link to Google Books Preview'
+    previewLink.innerHTML = 'Link book preview'
     let buttonDiv = document.createElement('div')
     buttonDiv.setAttribute("class", "center")
     let backBnt = document.createElement('button')
@@ -149,27 +193,27 @@ function displayDetailedInfo(bookData, googleData) {
     mainElement.appendChild(description)
     mainElement.appendChild(previewLink)
     mainElement.appendChild(buttonDiv)
-
-    backBnt.addEventListener('click', goBackDetailed)
+    backBnt.addEventListener('click', goBack)
+    addHistory()
     detailedStorage(bookData, googleData)
 }
-
+// store book data in local storage for books that were sucessfully found using google books api
 function detailedStorage(bookData, googleData) {
-    searchHistory.titleHist.push(bookData.title)
-    searchHistory.authorHist.push(bookData.author)
-    searchHistory.coverHist.push(bookData.book_image)
-    searchHistory.descHist.push(googleData.volumeInfo.description)
-    searchHistory.linkHist.push(googleData.volumeInfo.previewLink)
-    if (searchHistory.titleHist.length > 3) {
-        searchHistory.titleHist.pop()
-        searchHistory.authorHist.pop()
-        searchHistory.coverHist.pop()
-        searchHistory.descHist.pop()
-        searchHistory.linkHist.pop()
+    console.log(bookHistory)
+    let searchHistory = {}
+    searchHistory.title = bookData.title
+    searchHistory.author = bookData.author
+    searchHistory.book_image = bookData.book_image
+    searchHistory.description = googleData.volumeInfo.description
+    searchHistory.amazon_product_url = googleData.volumeInfo.previewLink
+    bookHistory.unshift(searchHistory)
+    console.log(bookHistory)
+    if (bookHistory.length > 3) {
+        bookHistory.pop()
     }
-    window.localStorage.setItem('searchHistory', JSON.stringify(searchHistory))
+    window.localStorage.setItem('bookHistory', JSON.stringify(bookHistory))
 }
-
+// display book data for books that were not found using google books api 
 function displayBasicInfo(bookData) {
     let coverArt = document.createElement('img')
     let buttonDiv = document.createElement('div')
@@ -179,33 +223,53 @@ function displayBasicInfo(bookData) {
     let description = document.createElement('p')
     description.innerHTML = bookData.description
     description.setAttribute('id', 'description')
+    let previewLink = document.createElement('a')
+    previewLink.setAttribute('id', 'preview-link')
+    previewLink.setAttribute('href', bookData.amazon_product_url)
+    previewLink.setAttribute('target', 'blank')
+    previewLink.innerHTML = 'Link book preview'
     let backBnt = document.createElement('button')
     backBnt.setAttribute('class', 'button')
     backBnt.setAttribute('id', 'back-button')
     backBnt.innerHTML = 'Pick a new Genre'
     mainElement.appendChild(coverArt)
     mainElement.appendChild(description)
+    mainElement.appendChild(previewLink)
     buttonDiv.appendChild(backBnt)
     mainElement.appendChild(buttonDiv)
-    backBnt.addEventListener('click', goBackBasic)
+    backBnt.addEventListener('click', goBack)
+    addHistory()
+    basicStorage(bookData)
 }
-
-function goBackDetailed() {
+// store book data in local storage for books that were not found using google books api
+function basicStorage(bookData) {
+    console.log(bookHistory)
+    let searchHistory = {}
+    searchHistory.title = bookData.title
+    searchHistory.author = bookData.author
+    searchHistory.book_image = bookData.book_image
+    searchHistory.description = bookData.description
+    searchHistory.amazon_product_url = bookData.amazon_product_url
+    bookHistory.unshift(searchHistory)
+    console.log(bookHistory)
+    if (bookHistory.length > 3) {
+        bookHistory.pop()
+    }
+    window.localStorage.setItem('bookHistory', JSON.stringify(bookHistory))
+}
+// go back to genre selection from book display screen
+function goBack() {
     document.getElementById('cover-art').remove()
     document.getElementById('description').remove()
     document.getElementById('back-button').remove()
     document.querySelector('.header').remove()
     document.getElementById('preview-link').remove()
-    launchPage()
+    if(bookHistory.length > 0) {
+        document.querySelector('.history-container').remove()
+    }
+    genrePicker()
 }
-function goBackBasic() {
-    document.getElementById('cover-art').remove()
-    document.getElementById('description').remove()
-    document.getElementById('back-button').remove()
-    document.querySelector('.header').remove()
-    launchPage()
-}
-
+// pull random book from nyt bestseller list api based on user selected genre(s)
 function nyTimesApi(categorySelections) {
     let randomCategory = getRandomCategory(categorySelections)
     console.log(categorySelections[randomCategory])
@@ -215,26 +279,24 @@ function nyTimesApi(categorySelections) {
         return response.json();
       })
     .then(function(data) {
-        // console.log(data)
         let x = getRandomBook(data)
         let bookData = data.results.books[x]
         document.querySelector('.header').innerHTML = '"' + bookData.title + '"' + '    By: ' + bookData.author
         googleBooksApi(bookData)
     })
 }
-
+// get a random position in bestseller list to select a random book
 function getRandomBook(data) {
     return Math.floor(Math.random() * data.results.books.length)
  }
-
+// get a random position in nyTimesCategory array to select random category from user selection
  function getRandomCategory(nyTimesCategory) {
     return Math.floor(Math.random() * nyTimesCategory.length)
  }
-
+// check for selected checkboxes to create array of select genres
  function checkboxes() {
     let categorySelections = []
     for(let i = 0; i < nyTimesCategory.length; i++) {
-        // if(document.getElementById(categoryArr[i]).checked)
         let x = document.getElementById(nyTimesCategory[i]).checked
         if(x) {
             categorySelections.push(nyTimesCategory[i])
@@ -245,11 +307,10 @@ function getRandomBook(data) {
         hideGenres()
         nyTimesApi(categorySelections)
     }else {
-        // alert('Please select at least one genre.')
         noCategory()
     }
  }
-
+// display error message if the user does not select a genre
 function noCategory() {
     hideGenres()
     document.querySelector('.header').remove()
@@ -264,17 +325,11 @@ function noCategory() {
     mainElement.appendChild(errorBtn)
     errorBtn.addEventListener('click', hideError) 
 }
-
+// hide no selection error message
 function hideError() {
     document.getElementById('error-message').remove()
     document.getElementById('error-button').remove()
-    launchPage()
+    genrePicker()
 }
-
-// function showBookData(googleData, nytData)
-
+// run introPage function when user launches the page
 introPage()
-// document.getElementById('submit').addEventListener('click', checkboxes)
-// document.getElementById('start-button').addEventListener('click', launchPage)
-
-// nyTimesApi()
