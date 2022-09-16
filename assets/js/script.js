@@ -9,6 +9,8 @@ var mainElement = document.querySelector('main')
 function introPage() {
     // let mainElement = document.querySelector('main')
     let bigHeader = document.createElement('h1')
+    let buttonDiv = document.createElement('div')
+    buttonDiv.setAttribute('class', 'center')
     bigHeader.innerHTML = 'New York Times Book Picker'
     bigHeader.setAttribute('class', 'bigHeader')
     mainElement.appendChild(bigHeader)
@@ -20,7 +22,8 @@ function introPage() {
     startBtn.setAttribute('id', 'start-button')
     startBtn.setAttribute('class', 'button')
     startBtn.innerHTML = 'Get Started'
-    mainElement.appendChild(startBtn)
+    buttonDiv.appendChild(startBtn)
+    mainElement.appendChild(buttonDiv)
     document.getElementById('start-button').addEventListener('click', function() {
         removeIntro()
         launchPage()
@@ -38,6 +41,8 @@ function launchPage() {
     // bigHeader.setAttribute('class', 'bigHeader')
     // removeIntro()
     let genreHeader = document.createElement('h2')
+    let buttonDiv = document.createElement('div')
+    buttonDiv.setAttribute('class', 'center')
     genreHeader.setAttribute('class', 'header')
     genreHeader.innerHTML = 'Choose a Genre'
     // let mainElement = document.querySelector('main')
@@ -81,7 +86,8 @@ function launchPage() {
     submitBtn.innerHTML = 'Submit'
     submitBtn.setAttribute('id', 'submit')
     submitBtn.setAttribute('class', 'button')
-    mainElement.appendChild(submitBtn)
+    buttonDiv.appendChild(submitBtn)
+    mainElement.appendChild(buttonDiv)
     document.getElementById('submit').addEventListener('click', checkboxes)
 }
 
@@ -121,19 +127,25 @@ function displayDetailedInfo(bookData, googleData) {
     previewLink.setAttribute('href', googleData.volumeInfo.previewLink)
     previewLink.setAttribute('target', 'blank')
     previewLink.innerHTML = 'Link to Google Books Preview'
+    let buttonDiv = document.createElement('div')
+    buttonDiv.setAttribute("class", "center")
     let backBnt = document.createElement('button')
     backBnt.setAttribute('class', 'button')
     backBnt.setAttribute('id', 'back-button')
     backBnt.innerHTML = 'Pick a new Genre'
+    buttonDiv.appendChild(backBnt)
     mainElement.appendChild(coverArt)
     mainElement.appendChild(description)
     mainElement.appendChild(previewLink)
-    mainElement.appendChild(backBnt)
+    mainElement.appendChild(buttonDiv)
+
     backBnt.addEventListener('click', goBackDetailed)
 }
 
 function displayBasicInfo(bookData) {
     let coverArt = document.createElement('img')
+    let buttonDiv = document.createElement('div')
+    buttonDiv.setAttribute('class', 'center')
     coverArt.setAttribute('src', bookData.book_image)
     coverArt.setAttribute('id', 'cover-art')
     let description = document.createElement('p')
@@ -145,7 +157,8 @@ function displayBasicInfo(bookData) {
     backBnt.innerHTML = 'Pick a new Genre'
     mainElement.appendChild(coverArt)
     mainElement.appendChild(description)
-    mainElement.appendChild(backBnt)
+    buttonDiv.appendChild(backBnt)
+    mainElement.appendChild(buttonDiv)
     backBnt.addEventListener('click', goBackBasic)
 }
 

@@ -14,7 +14,13 @@ body {
     margin-top: 175px;
     border-radius: 10px;
     height: auto;
+    align-items: center;
+    justify-content: center;
+}
 
+#cover-art {
+    width: auto;
+    max-height: 45vh;
 }
 
 .bigHeader {
@@ -48,12 +54,12 @@ body {
 .subGenres-col {
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: space-evenly; 
 
 }
 
 .subGenres-item {
-    justify-content: space-around;
+    justify-content: space-evenly; 
     font-size: 30px;
     list-style-type: none;
     margin-bottom: 20px;
@@ -61,13 +67,26 @@ body {
 
 
 .button {
-    margin-left: 36%;
-    margin-top: 40px;
-    margin-bottom: 40px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;  
+    border-radius: 5px;  
+    margin-top: 40px; 
+    margin-bottom: 40px;  
     font-size: 35px;
     padding-left: 10%;
     padding-right: 10%;
+    margin-bottom: 2.5rem;
 }
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
 
 #cover-art {
     display: flex;
@@ -76,7 +95,7 @@ body {
     padding: 20px;
     padding-bottom: 50px;
     /* margin-right: 50%; */
-    float: left;
+    /* float: left; */
 }
 
 #description {
@@ -88,6 +107,37 @@ body {
 
 #preview-link {
     padding: 20px;
+    display: flex; 
+    justify-content: center; 
 }
 /* Photo by <a href="https://unsplash.com/@alfonsmc10?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Alfons Morales</a> on <a href="https://unsplash.com/s/photos/library-books?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a> */
   
+/* @media only screen and (max-width: 1865px) {
+    .mainContainer {
+        height: 930px;
+    }
+  }
+
+@media only screen and (max-width: 1330px) {
+    .mainContainer {
+        height: 1000px;
+    }
+  }
+
+  @media only screen and (max-width: 910px) {
+    .mainContainer {
+        height: 1200px;
+    }
+  }
+
+  @media only screen and (max-width: 760px) {
+    .mainContainer {
+        height: 1575px;
+    }
+  }
+
+  @media only screen and (max-width: 910px) {
+    .subGenres-item {
+        font-size: 20px;
+    }
+  } */
