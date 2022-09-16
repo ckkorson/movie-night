@@ -5,6 +5,17 @@ var nyTimesCategory = ['hardcover-fiction', 'hardcover-nonfiction', 'graphic-boo
 var categoryLabels = ['Fiction', 'Nonfiction', 'Graphic Books/Manga', 'Young Adult', 'Business', 'Crime', 'Science',
 'Sports', 'Travel']
 var mainElement = document.querySelector('main')
+if (JSON.parse(localStorage.getItem('searchHistory')) != null) {
+    var searchHistory = JSON.parse(localStorage.getItem('searchHistory'))
+}else {
+    var searchHistory = {
+            titleHist: [],
+            authorHist: [],
+            coverHist: [],
+            descHist: [],
+            linkHist: []
+        }
+}
 
 function introPage() {
     // let mainElement = document.querySelector('main')
@@ -140,6 +151,23 @@ function displayDetailedInfo(bookData, googleData) {
     mainElement.appendChild(buttonDiv)
 
     backBnt.addEventListener('click', goBackDetailed)
+    detailedStorage(bookData, googleData)
+}
+
+function detailedStorage(bookData, googleData) {
+    searchHistory.titleHist.push(bookData.title)
+    searchHistory.authorHist.push(bookData.author)
+    searchHistory.coverHist.push(bookData.book_image)
+    searchHistory.descHist.push(googleData.volumeInfo.description)
+    searchHistory.linkHist.push(googleData.volumeInfo.previewLink)
+    if (searchHistory.titleHist.length > 3) {
+        searchHistory.titleHist.pop()
+        searchHistory.authorHist.pop()
+        searchHistory.coverHist.pop()
+        searchHistory.descHist.pop()
+        searchHistory.linkHist.pop()
+    }
+    window.localStorage.setItem('searchHistory', JSON.stringify(searchHistory))
 }
 
 function displayBasicInfo(bookData) {
