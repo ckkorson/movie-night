@@ -98,12 +98,13 @@ function googleBooksApi(bookData) {
       })
     .then(function(data) {
         console.log(bookData)
+        console.log(data)
         if(data.totalItems > 0) {
             let googleData = data.items[0]
             console.log(googleData)
             displayDetailedInfo(bookData, googleData)
         }else {
-            displayBasicInfo(bookData, googleData)
+            displayBasicInfo(bookData)
         }
     })
 } 
