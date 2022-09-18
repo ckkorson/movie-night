@@ -42,38 +42,34 @@ body {
     font-size: 40px;
 }
 
+.container-subGenres {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
 
-
-.container-subGenres { 
-   display: flex;
-   flex-direction: row;
-   justify-content: space-evenly;
-   
 }
 
 .subGenres-col {
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly; 
-
+    justify-content: space-evenly;
 }
 
 .subGenres-item {
-    justify-content: space-evenly; 
+    justify-content: space-evenly;
     font-size: 30px;
     list-style-type: none;
     margin-bottom: 20px;
 }
 
-
 .button {
     text-align: center;
     display: flex;
     justify-content: center;
-    align-items: center;  
-    border-radius: 5px;  
-    margin-top: 40px; 
-    margin-bottom: 40px;  
+    align-items: center;
+    border-radius: 5px;
+    margin-top: 40px;
+    margin-bottom: 40px;
     font-size: 35px;
     padding-left: 10%;
     padding-right: 10%;
@@ -86,48 +82,96 @@ body {
     align-items: center;
 }
 
-
-
 #cover-art {
     display: flex;
+    justify-content: center;
+    border: 5px solid black;
 }
 
 #description {
     display: flex;
     padding: 20px;
+    /* margin-left: 380px; */
+    /* float: right; */
 }
 
 #preview-link {
     padding: 20px;
-    display: flex; 
-    justify-content: center; 
+    display: flex;
+    justify-content: center;
 }
+
+#history-header {
+    margin-left: 5vh;
+    font-size: 25px;
+    text-decoration: underline;
+}
+
+.history-item {
+    margin-left: 5vh;
+    font-size: 20px;
+}
+
+.history-item:hover {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#start-button:hover {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#submit:hover {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#back-button:hover {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#preview-link {
+    font-size: 25px;
+}
+
+#preview-link:hover {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#description {
+    font-size: 23px;
+}
+
+#intro-text {
+    font-size: 3vh;
+    text-align: center;
+}
+
 /* Photo by <a href="https://unsplash.com/@alfonsmc10?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Alfons Morales</a> on <a href="https://unsplash.com/s/photos/library-books?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a> */
-  
+
 /* @media only screen and (max-width: 1865px) {
     .mainContainer {
         height: 930px;
     }
   }
-
 @media only screen and (max-width: 1330px) {
     .mainContainer {
         height: 1000px;
     }
   }
-
   @media only screen and (max-width: 910px) {
     .mainContainer {
         height: 1200px;
     }
   }
-
   @media only screen and (max-width: 760px) {
     .mainContainer {
         height: 1575px;
     }
   }
-
   @media only screen and (max-width: 910px) {
     .subGenres-item {
         font-size: 20px;
