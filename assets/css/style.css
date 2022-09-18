@@ -90,19 +90,11 @@ body {
 
 #cover-art {
     display: flex;
-    /* justify-content: center; */
-    /* margin: auto; */
-    padding: 20px;
-    padding-bottom: 50px;
-    /* margin-right: 50%; */
-    /* float: left; */
 }
 
 #description {
     display: flex;
     padding: 20px;
-    /* margin-left: 380px; */
-    /* float: right; */
 }
 
 #preview-link {
