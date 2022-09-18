@@ -167,6 +167,8 @@ function googleBooksApi(bookData) {
 } 
 // display book data for books that were sucessfully found using google books api
 function displayDetailedInfo(bookData, googleData) {
+    let center = document.createElement('div')
+    center.setAttribute('class', 'center')
     let coverArt = document.createElement('img')
     coverArt.setAttribute('src', bookData.book_image)
     coverArt.setAttribute('id', 'cover-art')
@@ -189,7 +191,8 @@ function displayDetailedInfo(bookData, googleData) {
     backBnt.setAttribute('id', 'back-button')
     backBnt.innerHTML = 'Pick a new Genre'
     buttonDiv.appendChild(backBnt)
-    mainElement.appendChild(coverArt)
+    center.appendChild(coverArt)
+    mainElement.appendChild(center)
     mainElement.appendChild(description)
     mainElement.appendChild(previewLink)
     mainElement.appendChild(buttonDiv)
@@ -215,6 +218,8 @@ function detailedStorage(bookData, googleData) {
 }
 // display book data for books that were not found using google books api 
 function displayBasicInfo(bookData) {
+    let center = document.createElement('div')
+    center.setAttribute('class', 'center')
     let coverArt = document.createElement('img')
     let buttonDiv = document.createElement('div')
     buttonDiv.setAttribute('class', 'center')
@@ -232,7 +237,8 @@ function displayBasicInfo(bookData) {
     backBnt.setAttribute('class', 'button')
     backBnt.setAttribute('id', 'back-button')
     backBnt.innerHTML = 'Pick a new Genre'
-    mainElement.appendChild(coverArt)
+    center.appendChild(coverArt)
+    mainElement.appendChild(center)
     mainElement.appendChild(description)
     mainElement.appendChild(previewLink)
     buttonDiv.appendChild(backBnt)
