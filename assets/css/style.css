@@ -91,8 +91,6 @@ body {
 #description {
     display: flex;
     padding: 20px;
-    /* margin-left: 380px; */
-    /* float: right; */
 }
 
 #preview-link {
